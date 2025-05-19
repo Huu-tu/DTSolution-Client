@@ -12,10 +12,10 @@ const Contact = () => {
               "
             >
               <h2 className="mb-3 text-2xl font-bold text-black dark:text-white sm:text-3xl lg:text-2xl xl:text-3xl">
-                Need Help? Open a Ticket
+                ĐĂNG KÝ TƯ VẤN
               </h2>
               <p className="mb-12 text-base font-medium text-body-color">
-                Our support team will get back to you ASAP via email.
+                Nhóm hỗ trợ của chúng tôi sẽ trả lời bạn sớm nhất có thể qua email.
               </p>
               <form>
                 <div className="-mx-4 flex flex-wrap">
@@ -34,6 +34,7 @@ const Contact = () => {
                       />
                     </div>
                   </div>
+
                   <div className="w-full px-4 md:w-1/2">
                     <div className="mb-8">
                       <label
@@ -46,6 +47,36 @@ const Contact = () => {
                         type="email"
                         placeholder="Enter your email"
                         className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full px-4 md:w-1/2">
+                    <div className="mb-8">
+                      <label
+                          htmlFor="phone"
+                          className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
+                        Your Phone
+                      </label>
+                      <input
+                          type="phone"
+                          placeholder="Enter your phone"
+                          className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
+                      />
+                    </div>
+                  </div>
+                  <div className="w-full px-4 md:w-1/2">
+                    <div className="mb-8">
+                      <label
+                          htmlFor="topic"
+                          className="mb-3 block text-sm font-medium text-dark dark:text-white"
+                      >
+                        Your Topic
+                      </label>
+                      <input
+                          type="topic"
+                          placeholder="Enter your topic"
+                          className="border-stroke dark:text-body-color-dark dark:shadow-two w-full rounded-sm border bg-[#f8f8f8] px-6 py-3 text-base text-body-color outline-none focus:border-primary dark:border-transparent dark:bg-[#2C303B] dark:focus:border-primary dark:focus:shadow-none"
                       />
                     </div>
                   </div>
@@ -67,7 +98,7 @@ const Contact = () => {
                   </div>
                   <div className="w-full px-4">
                     <button className="shadow-submit dark:shadow-submit-dark rounded-sm bg-primary px-9 py-4 text-base font-medium text-white duration-300 hover:bg-primary/90">
-                      Submit Ticket
+                      Submit
                     </button>
                   </div>
                 </div>
