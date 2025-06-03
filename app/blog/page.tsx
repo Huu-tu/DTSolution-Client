@@ -10,14 +10,14 @@ import { BlogModel} from "@/types/blog";
 
 const Blog = () => {
   const [blogs,setBlogs] = useState<BlogModel[]>([]);
-  const { data, error, isLoading } = useSWR<any>(`/api/blogs`, fetcher);
+  const { data, error, isLoading } = useSWR<any>(`http://localhost:4000/api/blogs`, fetcher);
   useEffect(()=>{
-    console.log(data)
-    // if(data && data.result.data)
-    // {
-    //   console.log(data.result.data);
-    //   setBlogs(data.result.data);
-    // }
+    if(data)
+    {
+      console.log(data);
+      setBlogs(data);
+    }
+    console.log(blogs);
   },[data,isLoading]);
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
@@ -48,9 +48,9 @@ const Blog = () => {
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {blogData.map((blog) => (
+            {blogs.map((blog) => (
               <div
-                key={blog.id}
+                key={blog._id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
               >
                 <SingleBlog blog={blog} />

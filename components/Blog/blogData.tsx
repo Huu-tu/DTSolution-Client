@@ -1,8 +1,8 @@
-import { Blog } from "@/types/blog";
+import { BlogModel } from "@/types/blog";
 
-const blogData: Blog[] = [
+const blogData: BlogModel[] = [
   {
-    id: 1,
+    _id: 1,
     title: "Hướng dẫn cách self-host N8N trên Ubuntu VPS ",
     paragraph:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
@@ -12,11 +12,11 @@ const blogData: Blog[] = [
       image: "/images/blog/author-01.png",
       designation: "Graphic Designer",
     },
-    tags: ["creative"],
+    type: ["creative"],
     publishDate: "2025",
   },
   {
-    id: 2,
+    _id: 2,
     title: "9 simple ways to improve your design skills",
     paragraph:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
@@ -26,11 +26,11 @@ const blogData: Blog[] = [
       image: "/images/blog/author-02.png",
       designation: "Content Writer",
     },
-    tags: ["computer"],
+    type: ["computer"],
     publishDate: "2025",
   },
   {
-    id: 3,
+    _id: 3,
     title: "Tips to quickly improve your coding speed.",
     paragraph:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit amet dictum neque, laoreet dolor.",
@@ -40,7 +40,7 @@ const blogData: Blog[] = [
       image: "/images/blog/author-03.png",
       designation: "Graphic Designer",
     },
-    tags: ["design"],
+    type: ["design"],
     publishDate: "2025",
   },
 ];
