@@ -9,7 +9,7 @@ export type BlogModel = {
   title: string;
   paragraph: string;
   image: string;
-  author: Author;
+  content: string;
   type: string[];
   publishDate: string;
 };

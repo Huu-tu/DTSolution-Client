@@ -60,21 +60,20 @@ const BlogCreatePage = () => {
         formData.append('content', data.content);
         formData.append('type', data.type);
         if (file) {
-            formData.append('image', file); // key này là 'image'
+            formData.append('image', file);
         }
 
         try {
             const res = await fetch('http://localhost:4000/api/blogs', {
                 method: 'POST',
-                body: formData, // KHÔNG đặt Content-Type
+                body: formData,
             });
 
             if (!res.ok) {
                 console.error('Upload failed');
             } else {
                 const result = await res.json();
-                console.log('Upload success', result);
-                // router.push('/blog');
+                router.push('/blog');
             }
         } catch (err) {
             console.error('Error uploading blog:', err);
@@ -103,20 +102,14 @@ const BlogCreatePage = () => {
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                placeholder="Nhập tiêu đề" />
                                     </div>
-                                    <div className="w-full">
+                                    <div className="sm:col-span-2">
                                         <label htmlFor="paragraph" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                             Paragraph
                                         </label>
-                                        <input type="text" name="paragraph" id="paragraph"
+                                        <input type="textarea" name="paragraph" id="paragraph"
                                                onChange={handleChange} value={data.paragraph}
                                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                                placeholder="Nhập văn bản" />
-                                    </div>
-                                    <div className="w-full">
-                                        <label htmlFor="price" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Price</label>
-                                        <input type="number" name="price" id="price"
-                                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                               placeholder="$2999" />
                                     </div>
                                     <div>
                                         <label htmlFor="type" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">

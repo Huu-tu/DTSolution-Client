@@ -14,11 +14,10 @@ const Blog = () => {
   useEffect(()=>{
     if(data)
     {
-      console.log(data);
       setBlogs(data);
     }
-    console.log(blogs);
   },[data,isLoading]);
+
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
   if (!data) return null;
