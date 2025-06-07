@@ -4,13 +4,12 @@ import React,{useEffect, useState} from "react";
 import useSWR from "swr";
 import { fetcher } from "@/libs";
 import SingleBlog from "@/components/Blog/SingleBlog";
-import blogData from "@/components/Blog/blogData";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import { BlogModel} from "@/types/blog";
 
 const Blog = () => {
   const [blogs,setBlogs] = useState<BlogModel[]>([]);
-  const { data, error, isLoading } = useSWR<any>(`http://localhost:4000/api/blogs`, fetcher);
+  const { data, error, isLoading } = useSWR<any>(`${process.env.PATH_URL_BACKEND}/api/blog`, fetcher);
   useEffect(()=>{
     if(data)
     {

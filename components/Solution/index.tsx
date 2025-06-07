@@ -12,7 +12,6 @@ const Solution = () => {
                         paragraph="Nâng cao hiệu quả công việc, tiết kiệm chi phí và nâng cao chất lượng sản phẩm."
                         center
                     />
-
                     <div className="grid grid-cols-1 gap-x-8 gap-y-14 md:grid-cols-2 lg:grid-cols-3">
                         {solutionData.map((feature) => (
                             <SingleSolution key={feature.id} feature={feature} />

@@ -12,7 +12,7 @@ const BlogDetailsPage = ({params}: {params:{id :number}}) => {
 
   const fetchBlog = async () => {
     try {
-      const res = await fetch(`http://localhost:4000/api/blogs/${params.id}`, {
+      const res = await fetch(`${process.env.PATH_URL_BACKEND}/api/blog/${params.id}`, {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',

@@ -1,4 +1,7 @@
 const nextConfig = {
+  env: {
+    PATH_URL_BACKEND: 'http://localhost:4000',
+  },
   experimental: {
     appDir: true,
   },

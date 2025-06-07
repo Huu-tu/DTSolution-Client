@@ -1,4 +1,5 @@
 node_modules
+next.config.jsc
 dist
 .cache
 .env

@@ -13,3 +13,13 @@ export type BlogModel = {
   type: string[];
   publishDate: string;
 };
+
+export type ServiceModel = {
+  _id: number;
+  title: string;
+  description: string;
+  image: string;
+  tech: string;
+  type: string[];
+  publishDate: string;
+};
