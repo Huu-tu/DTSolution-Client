@@ -3,41 +3,54 @@
 import React,{useEffect, useState} from "react";
 import useSWR from "swr";
 import { fetcher } from "@/libs";
+import SingleBlog from "@/components/Blog/SingleBlog";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { RealuseModel} from "@/types/blog";
-import SingleRealuse from "@/components/Realuse/SingleRealuse";
-import Contact from "@/components/Contact";
+import { BlogModel} from "@/types/blog";
 
-const Realuse = () => {
-    const [realuses,setRealuses] = useState<RealuseModel[]>([]);
-    const { data, error, isLoading } = useSWR<any>(`${process.env.PATH_URL_BACKEND}/api/solution`, fetcher);
+const Order = () => {
+    const [blogs,setBlogs] = useState<BlogModel[]>([]);
+    const { data, error, isLoading } = useSWR<any>(`${process.env.PATH_URL_BACKEND}/api/blog`, fetcher);
     useEffect(()=>{
         if(data)
         {
-            setRealuses(data);
+            setBlogs(data);
         }
     },[data,isLoading]);
 
     if (error) return <div>Failed to load</div>;
     if (isLoading) return <div>Loading...</div>;
     if (!data) return null;
+    // let delete_Post : BlogModel['deletePost']= async (id:number) => {
+    //   const res = await fetch(`/api/posts/${id}`, {
+    //     method: 'DELETE',
+    //     headers: {
+    //       'Content-Type': 'application/json'
+    //     },
+    //   });
+    //   const content = await res.json();
+    //   if(content.success>0)
+    //   {
+    //
+    //     setBlogs(blogs?.filter((blog:BlogModel)=>{  return blog.id !== id  }));
+    //   }
+    // }
 
     return (
         <>
             <Breadcrumb
-                pageName="Realuse Grid"
+                pageName="Blog Grid"
                 description=""
             />
 
             <section className="pb-[120px] pt-[120px]">
                 <div className="container">
                     <div className="-mx-4 flex flex-wrap justify-center">
-                        {realuses.map((realuse) => (
+                        {blogs.map((blog) => (
                             <div
-                                key={realuse._id}
+                                key={blog._id}
                                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
                             >
-                                <SingleRealuse realuse={realuse} />
+                                <SingleBlog blog={blog} />
                             </div>
                         ))}
                     </div>
@@ -106,9 +119,8 @@ const Realuse = () => {
                     </div>
                 </div>
             </section>
-            <Contact />
         </>
     );
 };
 
-export default Realuse;
+export default Order;
