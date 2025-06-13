@@ -35,3 +35,23 @@ export type RealuseModel = {
   tech: string;
   publishDate: string;
 };
+
+export type OrderModel = {
+  _id: number;
+  customerName: string;
+  customerPhone: string;
+  customerAddress: string;
+  items: [];
+  totalAmount: number;
+  status: string;
+};
+
+export type ProductModel = {
+  _id: number;
+  title: string;
+  description: string;
+  price: number;
+  image: string;
+  tech: string;
+};
+

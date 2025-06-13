@@ -5,7 +5,7 @@ import {useEffect, useState} from "react";
 import SharePost from "@/components/Blog/SharePost";
 import TagButton from "@/components/Blog/TagButton";
 import Image from "next/image";
-import {BlogModel} from "@/types/blog";
+import {BlogModel} from "@/types/model";
 
 const BlogDetailsPage = ({params}: {params:{id :number}}) => {
   const [data, setData] = useState<BlogModel | null>(null);

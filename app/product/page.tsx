@@ -3,55 +3,40 @@
 import React,{useEffect, useState} from "react";
 import useSWR from "swr";
 import { fetcher } from "@/libs";
-import SingleBlog from "@/components/Blog/SingleBlog";
+import SingleProduct from "@/components/Product/SingleProduct";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { BlogModel} from "@/types/model";
+import { ProductModel } from "@/types/model";
 
-const Blog = () => {
-  const [blogs,setBlogs] = useState<BlogModel[]>([]);
-  const { data, error, isLoading } = useSWR<any>(`${process.env.PATH_URL_BACKEND}/api/blog`, fetcher);
+const Product = () => {
+  const [products,setProducts] = useState<ProductModel[]>([]);
+  const { data, error, isLoading } = useSWR<any>(`${process.env.PATH_URL_BACKEND}/api/product`, fetcher);
   useEffect(()=>{
     if(data)
     {
-      setBlogs(data);
+      setProducts(data);
     }
   },[data,isLoading]);
 
   if (error) return <div>Failed to load</div>;
   if (isLoading) return <div>Loading...</div>;
   if (!data) return null;
-  // let delete_Post : BlogModel['deletePost']= async (id:number) => {
-  //   const res = await fetch(`/api/posts/${id}`, {
-  //     method: 'DELETE',
-  //     headers: {
-  //       'Content-Type': 'application/json'
-  //     },
-  //   });
-  //   const content = await res.json();
-  //   if(content.success>0)
-  //   {
-  //
-  //     setBlogs(blogs?.filter((blog:BlogModel)=>{  return blog.id !== id  }));
-  //   }
-  // }
-
 
   return (
     <>
       <Breadcrumb
-        pageName="Blog Grid"
+        pageName="Product Grid"
         description=""
       />
 
       <section className="pb-[120px] pt-[120px]">
         <div className="container">
           <div className="-mx-4 flex flex-wrap justify-center">
-            {blogs.map((blog) => (
+            {products.map((product) => (
               <div
-                key={blog._id}
+                key={product._id}
                 className="w-full px-4 md:w-2/3 lg:w-1/2 xl:w-1/3"
               >
-                <SingleBlog blog={blog} />
+                <SingleProduct product={product} />
               </div>
             ))}
           </div>
@@ -124,4 +109,4 @@ const Blog = () => {
   );
 };
 
-export default Blog;
+export default Product;

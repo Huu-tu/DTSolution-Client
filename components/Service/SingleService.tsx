@@ -1,4 +1,4 @@
-import { ServiceModel } from "@/types/blog";
+import { ServiceModel } from "@/types/model";
 import Image from "next/image";
 import Link from "next/link";
 

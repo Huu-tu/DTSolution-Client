@@ -4,7 +4,7 @@ import React,{useEffect, useState} from "react";
 import useSWR from "swr";
 import { fetcher } from "@/libs";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { RealuseModel} from "@/types/blog";
+import { RealuseModel} from "@/types/model";
 import SingleRealuse from "@/components/Realuse/SingleRealuse";
 import Contact from "@/components/Contact";
 

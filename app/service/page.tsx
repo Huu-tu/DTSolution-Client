@@ -5,7 +5,7 @@ import useSWR from "swr";
 import { fetcher } from "@/libs";
 import SingleService from "@/components/Service/SingleService";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import { ServiceModel} from "@/types/blog";
+import { ServiceModel} from "@/types/model";
 import Contact from "@/components/Contact";
 
 const Service = () => {
