@@ -47,11 +47,13 @@ export type OrderModel = {
 };
 
 export type ProductModel = {
-  _id: number;
-  title: string;
-  description: string;
-  price: number;
-  image: string;
-  tech: string;
+  _id?: number;
+  title?: string;
+  description?: string;
+  price?: number;
+  image?: string;
+  tech?: string;
+  quantity?: number;
+  imageUrl?: string;
 };
 

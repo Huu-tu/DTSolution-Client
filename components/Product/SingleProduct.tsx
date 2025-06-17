@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const SingleProduct = ({ product }: { product: ProductModel }) => {
-  const { title, image, description, _id, tech } = product;
+  const { title, image, description, _id, price } = product;
   return (
     <>
       <div
@@ -15,7 +15,7 @@ const SingleProduct = ({ product }: { product: ProductModel }) => {
           className="relative block aspect-[37/22] w-full"
         >
           <span className="absolute right-6 top-6 z-20 inline-flex items-center justify-center rounded-full bg-primary px-4 py-2 text-sm font-semibold capitalize text-white">
-            {tech}
+            {price}₫
           </span>
           <Image src={`${process.env.PATH_URL_BACKEND}/img/` + `${image}`} alt="image" fill />
         </Link>
@@ -29,7 +29,7 @@ const SingleProduct = ({ product }: { product: ProductModel }) => {
             </Link>
           </h3>
           <p className="mb-6  border-body-color border-opacity-10 pb-6 text-base font-medium text-body-color dark:border-white dark:border-opacity-10">
-            {description}
+            /{description}/
           </p>
         </div>
       </div>

@@ -1,19 +1,22 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-import ThemeToggler from "./ThemeToggler";
 import menuData from "./menuData";
+import { ProductModel } from "@/types/model";
+import { localStorageHelper } from '@/utils/localStorageHelper';
 
 const Header = () => {
+  const [cart, setCart] = useState<ProductModel[]>([]);
+
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
   const navbarToggleHandler = () => {
     setNavbarOpen(!navbarOpen);
   };
 
-  // Sticky Navbar
   const [sticky, setSticky] = useState(false);
   const handleStickyNavbar = () => {
     if (window.scrollY >= 80) {
@@ -22,17 +25,29 @@ const Header = () => {
       setSticky(false);
     }
   };
+
   useEffect(() => {
     window.addEventListener("scroll", handleStickyNavbar);
-  });
+    const data = localStorageHelper.loadCart();
+    setCart(data);
+  },[]);
 
-  // submenu handler
   const [openIndex, setOpenIndex] = useState(-1);
-  const handleSubmenu = (index) => {
+  const handleSubmenu = (index: any) => {
     if (openIndex === index) {
       setOpenIndex(-1);
     } else {
       setOpenIndex(index);
+    }
+  };
+
+  const [openCart, setOpenCart] = useState(0);
+
+  const handleOpenCart = (index: any) => {
+    if (openCart === index) {
+      setOpenCart(-1);
+    } else {
+      setOpenCart(0);
     }
   };
 
@@ -57,7 +72,7 @@ const Header = () => {
                 } `}
               >
                 <Image
-                  src="/images/logo/img.png"
+                  src="/images/logo/logo.svg"
                   alt="logo"
                   width={140}
                   height={30}
@@ -136,7 +151,7 @@ const Header = () => {
                             >
                               {menuItem.submenu?.map((submenuItem, index) => (
                                 <Link
-                                  href={submenuItem.path}
+                                  href={submenuItem.path || ''}
                                   key={index}
                                   className="block rounded py-2.5 text-sm text-dark hover:text-primary dark:text-white/70 dark:hover:text-white lg:px-3"
                                 >
@@ -152,15 +167,43 @@ const Header = () => {
                 </nav>
               </div>
               <div className="flex items-center justify-end pr-16 lg:pr-0">
-                {/*<Link*/}
-                {/*  href="/signin"*/}
-                {/*  className="hidden px-7 py-3 text-base font-medium text-dark hover:opacity-70 dark:text-white md:block"*/}
-                {/*>*/}
-                {/*  Sign In*/}
-                {/*</Link>*/}
+                <div onClick={() => handleOpenCart(0)} className="relative group mr-4 transition-all duration-300">
+                  <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      className="w-7 h-7 stroke-white group-hover:stroke-gray-400 transition-all duration-300"
+                  >
+                    <g id="SVGRepo_iconCarrier">
+                      <path d="M7.5 18C8.32843 18 9 18.6716 9 19.5C9 20.3284 8.32843 21 7.5 21C6.67157 21 6 20.3284 6 19.5C6 18.6716 6.67157 18 7.5 18Z" strokeWidth="1.5" />
+                      <path d="M16.5 18.0001C17.3284 18.0001 18 18.6716 18 19.5001C18 20.3285 17.3284 21.0001 16.5 21.0001C15.6716 21.0001 15 20.3285 15 19.5001C15 18.6716 15.6716 18.0001 16.5 18.0001Z" strokeWidth="1.5" />
+                      <path d="M11 10.8L12.1429 12L15 9" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <path d="M2 3L2.26121 3.09184C3.5628 3.54945 4.2136 3.77826 4.58584 4.32298C4.95808 4.86771 4.95808 5.59126 4.95808 7.03836V9.76C4.95808 12.7016 5.02132 13.6723 5.88772 14.5862C6.75412 15.5 8.14857 15.5 10.9375 15.5H12M16.2404 15.5C17.8014 15.5 18.5819 15.5 19.1336 15.0504C19.6853 14.6008 19.8429 13.8364 20.158 12.3075L20.6578 9.88275C21.0049 8.14369 21.1784 7.27417 20.7345 6.69708C20.2906 6.12 18.7738 6.12 17.0888 6.12H11.0235M4.95808 6.12H7" strokeWidth="1.5" strokeLinecap="round" />
+                    </g>
+                  </svg>
+                      <div
+                          className={`submenu relative right-0 top-full rounded-sm bg-white transition-[top] duration-300 group-hover:opacity-100 dark:bg-dark lg:invisible lg:absolute lg:top-[110%] lg:block lg:w-[250px] lg:p-4 lg:opacity-0 lg:shadow-lg lg:group-hover:visible lg:group-hover:top-full ${
+                              openCart === -1 ? "block" : "hidden"
+                          }`}                      >
+                        <p className="font-semibold text-gray-800 dark:text-white mb-3">🛒 Sản phẩm đã chọn:</p>
+                        <ul className="space-y-2 text-sm text-gray-700 dark:text-gray-300">
+                          {cart.map((item) => (
+                              <li key={item._id}>✅ {item.title}</li>
+                          ))}
+                        </ul>
+                        <div className="mt-4 text-right">
+                          <Link
+                              href="/checkout"
+                              className="bg-primary text-white px-4 py-2 rounded-md hover:bg-opacity-90 transition-all duration-200">
+                            Thanh Toán
+                          </Link>
+                        </div>
+                      </div>
+                </div>
+
                 <Link
-                  href="/signup"
-                  className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
+                    href="/product"
+                    className="ease-in-up shadow-btn hover:shadow-btn-hover hidden rounded-sm bg-primary px-8 py-3 text-base font-medium text-white transition duration-300 hover:bg-opacity-90 md:block md:px-9 lg:px-6 xl:px-9"
                 >
                   Cửa hàng
                 </Link>

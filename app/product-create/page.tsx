@@ -34,23 +34,21 @@ const ProductCreatePage = () => {
             formData.append('image', file);
         }
 
-        console.log(formData)
+        try {
+            const res = await fetch(`${process.env.PATH_URL_BACKEND}/api/product`, {
+                method: 'POST',
+                body: formData,
+            });
 
-        // try {
-        //     const res = await fetch(`${process.env.PATH_URL_BACKEND}/api/product`, {
-        //         method: 'POST',
-        //         body: formData,
-        //     });
-        //
-        //     if (!res.ok) {
-        //         console.error('Upload failed');
-        //     } else {
-        //         const result = await res.json();
-        //         router.push('/product');
-        //     }
-        // } catch (err) {
-        //     console.error('Error uploading blog:', err);
-        // }
+            if (!res.ok) {
+                console.error('Upload failed');
+            } else {
+                const result = await res.json();
+                router.push('/product');
+            }
+        } catch (err) {
+            console.error('Error uploading blog:', err);
+        }
     }
 
 
