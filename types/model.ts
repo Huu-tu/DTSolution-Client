@@ -50,10 +50,9 @@ export type ProductModel = {
   _id?: number;
   title?: string;
   description?: string;
-  price?: number;
+  price: number;
   image?: string;
   tech?: string;
-  quantity?: number;
+  quantity: number;
   imageUrl?: string;
 };
-

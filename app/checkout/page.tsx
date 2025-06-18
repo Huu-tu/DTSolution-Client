@@ -1,9 +1,25 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Breadcrumb from "@/components/Common/Breadcrumb";
-import React from "react";
+import { ProductModel } from "@/types/model";
+import { localStorageHelper } from "@/utils/localStorageHelper";
 
 const CheckOut = () => {
+  const [cart, setCart] = useState<ProductModel[]>([]);
+  const [totalCart, setTotalCart] = useState(0);
+
+  useEffect(() => {
+    const data = localStorageHelper.loadCart();
+    const total = localStorageHelper.getTotalPrice();
+    setCart(data);
+    setTotalCart(total);
+  }, []);
+
+  const handleDeleteToCart = (_id: any) => {
+    localStorageHelper.removeProduct(_id);
+  };
+
   return (
     <>
       <Breadcrumb pageName="CheckOut Grid" description="" />
@@ -12,12 +28,11 @@ const CheckOut = () => {
         <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
           <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
             <div className="min-w-0 flex-1 space-y-8">
-              <div className="space-y-4  p-4  bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+              <div className="space-y-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
                 <h2 className="text-xl font-semibold text-gray-900 dark:text-white">
                   Thông tin khách hàng
                 </h2>
-
-                <div className="grid grid-cols-1 gap-4 ">
+                <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label
                       htmlFor="your_name"
@@ -66,158 +81,43 @@ const CheckOut = () => {
                   </div>
                 </div>
               </div>
-              <div className="space-y-4">
-                <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                    <div className="flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="credit-card"
-                          aria-describedby="credit-card-text"
-                          type="radio"
-                          name="payment-method"
-                          value=""
-                          className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                          checked
-                        />
-                      </div>
-
-                      <div className="ms-4 text-sm">
-                        <label
-                          htmlFor="credit-card"
-                          className="font-medium leading-none text-gray-900 dark:text-white"
-                        >
-                          {" "}
-                          Credit Card{" "}
-                        </label>
-                        <p
-                          id="credit-card-text"
-                          className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                        >
-                          Pay with your credit card
-                        </p>
-                      </div>
+              {cart.map((item) => (
+                <div className="space-y-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
+                  <div className="flex flex-1">
+                    <img
+                      className="object-cover w-full rounded-t-lg h-48 md:h-auto md:w-48 md:rounded-none md:rounded-s-lg"
+                      src={`http://localhost:4000/img/` + `${item?.image}`}
+                      alt=""
+                    />
+                    <div className="flex flex-col  p-4 leading-normal gap-1">
+                      <h5 className=" text-2xl  tracking-tight text-gray-900 dark:text-white">
+                        {item?.title}
+                      </h5>
+                      <p className="font-normal text-orange-400">
+                        {item?.price},000₫
+                      </p>
                     </div>
-
                     <div className="mt-4 flex items-center gap-2">
                       <button
                         type="button"
+                        onClick={() => handleDeleteToCart(item?._id)}
                         className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
                       >
                         Delete
                       </button>
 
-                      <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
+                      {/*<div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>*/}
 
-                      <button
-                        type="button"
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                    <div className="flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="pay-on-delivery"
-                          aria-describedby="pay-on-delivery-text"
-                          type="radio"
-                          name="payment-method"
-                          value=""
-                          className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                        />
-                      </div>
-
-                      <div className="ms-4 text-sm">
-                        <label
-                          htmlFor="pay-on-delivery"
-                          className="font-medium leading-none text-gray-900 dark:text-white"
-                        >
-                          {" "}
-                          Payment on delivery{" "}
-                        </label>
-                        <p
-                          id="pay-on-delivery-text"
-                          className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                        >
-                          +$15 payment processing fee
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <button
-                        type="button"
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      >
-                        Delete
-                      </button>
-
-                      <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                      <button
-                        type="button"
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      >
-                        Edit
-                      </button>
-                    </div>
-                  </div>
-
-                  <div className="rounded-lg border border-gray-200 bg-gray-50 p-4 ps-4 dark:border-gray-700 dark:bg-gray-800">
-                    <div className="flex items-start">
-                      <div className="flex h-5 items-center">
-                        <input
-                          id="paypal-2"
-                          aria-describedby="paypal-text"
-                          type="radio"
-                          name="payment-method"
-                          value=""
-                          className="h-4 w-4 border-gray-300 bg-white text-primary-600 focus:ring-2 focus:ring-primary-600 dark:border-gray-600 dark:bg-gray-700 dark:ring-offset-gray-800 dark:focus:ring-primary-600"
-                        />
-                      </div>
-
-                      <div className="ms-4 text-sm">
-                        <label
-                          htmlFor="paypal-2"
-                          className="font-medium leading-none text-gray-900 dark:text-white"
-                        >
-                          {" "}
-                          Paypal account{" "}
-                        </label>
-                        <p
-                          id="paypal-text"
-                          className="mt-1 text-xs font-normal text-gray-500 dark:text-gray-400"
-                        >
-                          Connect to your account
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="mt-4 flex items-center gap-2">
-                      <button
-                        type="button"
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      >
-                        Delete
-                      </button>
-
-                      <div className="h-3 w-px shrink-0 bg-gray-200 dark:bg-gray-700"></div>
-
-                      <button
-                        type="button"
-                        className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"
-                      >
-                        Edit
-                      </button>
+                      {/*<button*/}
+                      {/*  type="button"*/}
+                      {/*  className="text-sm font-medium text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-white"*/}
+                      {/*>*/}
+                      {/*  Edit*/}
+                      {/*</button>*/}
                     </div>
                   </div>
                 </div>
-              </div>
-
+              ))}
               <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg  dark:bg-gray-800 dark:border-gray-700">
                 <label
                   htmlFor="voucher"
@@ -254,23 +154,21 @@ const CheckOut = () => {
                       Tạm tính
                     </dt>
                     <dd className="text-base font-medium text-gray-900 dark:text-white">
-                      $8,094.00
+                      {totalCart},000₫
                     </dd>
                   </dl>
-
                   {/*<dl className="flex items-center justify-between gap-4 py-3">*/}
                   {/*  <dt className="text-base font-normal text-gray-500 dark:text-gray-400">*/}
                   {/*    Tiết kiệm*/}
                   {/*  </dt>*/}
                   {/*  <dd className="text-base font-medium text-green-500">0</dd>*/}
                   {/*</dl>*/}
-
                   <dl className="flex items-center justify-between gap-4 py-3">
                     <dt className="text-base font-bold text-gray-900 dark:text-white">
                       Tổng
                     </dt>
                     <dd className="text-base font-bold text-gray-900 dark:text-white">
-                      $8,392.00
+                      {totalCart},000₫
                     </dd>
                   </dl>
                 </div>
