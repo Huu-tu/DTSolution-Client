@@ -8,13 +8,55 @@ import { localStorageHelper } from "@/utils/localStorageHelper";
 const CheckOut = () => {
   const [cart, setCart] = useState<ProductModel[]>([]);
   const [totalCart, setTotalCart] = useState(0);
+  const [data, setData] = useState({
+    customerName: "",
+    customerPhone: "",
+    customerEmail: "",
+  });
 
   useEffect(() => {
-    const data = localStorageHelper.loadCart();
+    const load = localStorageHelper.loadCart();
     const total = localStorageHelper.getTotalPrice();
-    setCart(data);
+    setCart(load);
     setTotalCart(total);
   }, []);
+
+  const handleChangeCart = (e: any) => {
+    setData({ ...data, [e.target.name]: e.target.value });
+  };
+
+  const handleToPayment = async (e: any) => {
+    e.preventDefault();
+
+    const formData = {
+      customerName: data.customerName,
+      customerPhone: data.customerPhone,
+      customerEmail: data.customerEmail,
+      totalAmount: totalCart,
+      // items: "",
+      status: "pending",
+    };
+
+    try {
+      const res = await fetch(`${process.env.PATH_URL_BACKEND}/api/order`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!res.ok) {
+        console.error("Upload failed");
+      } else {
+        const result = await res.json();
+        console.log(result);
+        // router.push("/blog");
+      }
+    } catch (err) {
+      console.error("Error uploading blog:", err);
+    }
+  };
 
   const handleDeleteToCart = (_id: any) => {
     localStorageHelper.removeProduct(_id);
@@ -25,7 +67,10 @@ const CheckOut = () => {
       <Breadcrumb pageName="CheckOut Grid" description="" />
 
       <section className="bg-white py-8 antialiased dark:bg-gray-900 md:py-16">
-        <form action="#" className="mx-auto max-w-screen-xl px-4 2xl:px-0">
+        <form
+          onSubmit={handleToPayment}
+          className="mx-auto max-w-screen-xl px-4 2xl:px-0"
+        >
           <div className="mt-6 sm:mt-8 lg:flex lg:items-start lg:gap-12 xl:gap-16">
             <div className="min-w-0 flex-1 space-y-8">
               <div className="space-y-4 p-4 bg-white border border-gray-200 rounded-lg shadow-sm sm:p-8 dark:bg-gray-800 dark:border-gray-700">
@@ -35,14 +80,17 @@ const CheckOut = () => {
                 <div className="grid grid-cols-1 gap-4">
                   <div>
                     <label
-                      htmlFor="your_name"
+                      htmlFor="customerName"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Tên của bạn*
                     </label>
                     <input
                       type="text"
-                      id="your_name"
+                      id="customerName"
+                      name="customerName"
+                      value={data.customerName}
+                      onChange={handleChangeCart}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                       placeholder="Bonnie Green"
                       required
@@ -51,14 +99,17 @@ const CheckOut = () => {
 
                   <div>
                     <label
-                      htmlFor="your_email"
+                      htmlFor="customerEmail"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Email của bạn*
                     </label>
                     <input
                       type="email"
-                      id="your_email"
+                      id="customerEmail"
+                      name="customerEmail"
+                      value={data.customerEmail}
+                      onChange={handleChangeCart}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                       placeholder="name@flowbite.com"
                       required
@@ -66,14 +117,17 @@ const CheckOut = () => {
                   </div>
                   <div>
                     <label
-                      htmlFor="phone"
+                      htmlFor="customerPhone"
                       className="mb-2 block text-sm font-medium text-gray-900 dark:text-white"
                     >
                       Số điện thoại của bạn*
                     </label>
                     <input
                       type="text"
-                      id="phone"
+                      id="customerPhone"
+                      name="customerPhone"
+                      value={data.customerPhone}
+                      onChange={handleChangeCart}
                       className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                       placeholder=""
                       required
@@ -131,7 +185,6 @@ const CheckOut = () => {
                     id="voucher"
                     className="block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 text-sm text-gray-900 focus:border-primary-500 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder:text-gray-400 dark:focus:border-primary-500 dark:focus:ring-primary-500"
                     placeholder=""
-                    required
                   />
                   <button
                     type="button"
@@ -179,7 +232,7 @@ const CheckOut = () => {
                   type="submit"
                   className="bg-primary flex w-full items-center justify-center rounded-lg  px-5 py-2.5 text-sm font-medium text-white hover:bg-primary-800 focus:outline-none focus:ring-4  focus:ring-primary-300 dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800"
                 >
-                  Proceed to Payment
+                  Thanh Toán
                 </button>
               </div>
             </div>
